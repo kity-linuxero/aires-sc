@@ -25,15 +25,22 @@ services:
     image: telegraf:1.39.3
     container_name: aires-telegraf
     restart: unless-stopped
+    entrypoint: ["/bin/sh", "/etc/telegraf/select-config.sh"]
     depends_on:
       influxdb:
         condition: service_healthy
     environment:
+      MONITORING_MODE: ${MONITORING_MODE:-simulation}
+      LIEBERT_AA1_IP: ${LIEBERT_AA1_IP:-192.168.6.1}
+      LIEBERT_AA2_IP: ${LIEBERT_AA2_IP:-192.168.6.2}
+      LIEBERT_AA3_IP: ${LIEBERT_AA3_IP:-192.168.6.3}
       INFLUX_TOKEN: ${INFLUX_TOKEN:?Definir INFLUX_TOKEN en .env}
       INFLUX_ORG: ${INFLUX_ORG:?Definir INFLUX_ORG en .env}
       INFLUX_BUCKET: ${INFLUX_BUCKET:?Definir INFLUX_BUCKET en .env}
     volumes:
-      - ./telegraf/telegraf-demo.conf:/etc/telegraf/telegraf.conf:ro
+      - ./telegraf/select-config.sh:/etc/telegraf/select-config.sh:ro
+      - ./telegraf/telegraf-demo.conf:/etc/telegraf/telegraf-demo.conf:ro
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf-real.conf:ro
       - ./datasets:/datasets:ro
 
   grafana:

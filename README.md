@@ -1,8 +1,7 @@
 # Monitoreo Liebert / Emerson
 
-Stack local de demostración con Telegraf, InfluxDB 2 y Grafana. Mientras no haya
-acceso a las unidades reales, Telegraf relee los snapshots de `datasets/` cada
-10 segundos para generar una serie temporal de prueba.
+Stack de monitoreo con Telegraf, InfluxDB 2 y Grafana. Puede recolectar desde
+snapshots XML de prueba o desde unidades Liebert reales por HTTP.
 
 ## Levantar el stack
 
@@ -36,19 +35,43 @@ docker compose logs -f telegraf
 docker compose down
 ```
 
-Los volúmenes conservan el histórico entre reinicios. Para borrar solamente los
-datos demo y empezar de cero:
+Los volúmenes conservan el histórico entre reinicios. Para borrar toda la base,
+el histórico y la configuración persistente, y empezar de cero:
 
 ```powershell
 docker compose down -v
 ```
 
-## Pasar a los equipos reales
+## Modo simulación y modo real
 
-Cuando el stack se ejecute dentro de la red `192.168.6.0/24`, reemplazar en el
-servicio `telegraf` el montaje de `telegraf-demo.conf` por `telegraf.conf`. Las
-credenciales de `.env.example` son exclusivamente demostrativas y nunca deben
-usarse en producción.
+El modo se elige en `.env`:
+
+```dotenv
+MONITORING_MODE=simulation
+```
+
+- `simulation`: Telegraf relee `datasets/aa1.txt`, `aa2.txt` y `aa3.txt` cada
+  10 segundos. Es el valor predeterminado.
+- `real`: Telegraf consulta por HTTP las tres direcciones configuradas:
+
+```dotenv
+MONITORING_MODE=real
+LIEBERT_AA1_IP=192.168.6.1
+LIEBERT_AA2_IP=192.168.6.2
+LIEBERT_AA3_IP=192.168.6.3
+```
+
+Después de cambiar el modo o las IP, recrear solamente Telegraf:
+
+```powershell
+docker compose up -d --force-recreate telegraf
+docker compose logs -f telegraf
+```
+
+No es necesario recrear InfluxDB ni Grafana. El modo `real` requiere que el host
+de Docker tenga acceso de red a las IP configuradas. Las credenciales de
+`.env.example` son exclusivamente demostrativas y nunca deben usarse en
+producción.
 
 > InfluxDB utiliza las variables `DOCKER_INFLUXDB_INIT_*` solamente durante la
 > creación inicial del volumen. Cambiar `.env` no modifica las credenciales de
