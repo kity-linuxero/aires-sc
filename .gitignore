@@ -1,0 +1,14 @@
+# Credenciales locales
+.env
+.env.*
+!.env.example
+
+# Datos y caches locales
+telegraf/.cache/
+*.log
+
+# Archivos del sistema/editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

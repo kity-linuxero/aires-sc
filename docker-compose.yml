@@ -1,0 +1,64 @@
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: aires-influxdb
+    restart: unless-stopped
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUX_ADMIN_USER:?Definir INFLUX_ADMIN_USER en .env}
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_ADMIN_PASSWORD:?Definir INFLUX_ADMIN_PASSWORD en .env}
+      DOCKER_INFLUXDB_INIT_ORG: ${INFLUX_ORG:?Definir INFLUX_ORG en .env}
+      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUX_BUCKET:?Definir INFLUX_BUCKET en .env}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN:?Definir INFLUX_TOKEN en .env}
+    volumes:
+      - influxdb-data:/var/lib/influxdb2
+      - influxdb-config:/etc/influxdb2
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8086/health"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  telegraf:
+    image: telegraf:1.39.3
+    container_name: aires-telegraf
+    restart: unless-stopped
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    environment:
+      INFLUX_TOKEN: ${INFLUX_TOKEN:?Definir INFLUX_TOKEN en .env}
+      INFLUX_ORG: ${INFLUX_ORG:?Definir INFLUX_ORG en .env}
+      INFLUX_BUCKET: ${INFLUX_BUCKET:?Definir INFLUX_BUCKET en .env}
+    volumes:
+      - ./telegraf/telegraf-demo.conf:/etc/telegraf/telegraf.conf:ro
+      - ./datasets:/datasets:ro
+
+  grafana:
+    image: grafana/grafana:12.2.0
+    container_name: aires-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:?Definir GRAFANA_ADMIN_USER en .env}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Definir GRAFANA_ADMIN_PASSWORD en .env}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+      INFLUX_TOKEN: ${INFLUX_TOKEN:?Definir INFLUX_TOKEN en .env}
+      INFLUX_ORG: ${INFLUX_ORG:?Definir INFLUX_ORG en .env}
+      INFLUX_BUCKET: ${INFLUX_BUCKET:?Definir INFLUX_BUCKET en .env}
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning/datasources/influxdb.yml:/etc/grafana/provisioning/datasources/influxdb.yml:ro
+      - ./grafana/provisioning/dashboards/dashboards.yml:/etc/grafana/provisioning/dashboards/dashboards.yml:ro
+      - ./grafana/dashboards:/var/lib/grafana/dashboards:ro
+
+volumes:
+  influxdb-data:
+  influxdb-config:
+  grafana-data:

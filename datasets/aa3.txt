@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="/simon.xsl" ?>
+<icom:SimpleMonitoring schemaVersion="1.00" appVersion="WXG160075" xmlns:icom="http://www.emersonnetworkpower.com/icom" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.emersonnetworkpower.com/icom icom-1-02.xsd">
+<Item id="79" name="SinglState">
+<Label>Unit Status</Label>
+<Value valueType="262144" offset="0.000" gain="1.000" precision="0">Alarm On</Value>
+<Unit></Unit>
+</Item>
+<Item id="86" name="LocTemp">
+<Label>Return Air Temperature</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="1">25.4</Value>
+<Unit>&#176;C</Unit>
+</Item>
+<Item id="104" name="HT_Humi">
+<Label>Return Air Humidity</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="1">45.5</Value>
+<Unit>%rH</Unit>
+</Item>
+<Item id="678" name="PTC_TempD2">
+<Label>Supply Air Temperature</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="1">---</Value>
+<Unit></Unit>
+</Item>
+<Item id="81" name="TempSet_ac">
+<Label>Return Air Temperature Setpoint</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="1">20.0</Value>
+<Unit>&#176;C</Unit>
+</Item>
+<Item id="365" name="HuSetActDi">
+<Label>Return Air Humidity Setpoint</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="0">45</Value>
+<Unit>%rH</Unit>
+</Item>
+<Item id="126" name="SupplySet">
+<Label>Supply Air Temperature Setpoint</Label>
+<Value valueType="262144" offset="0.000" gain="1.000" precision="0">No</Value>
+<Unit></Unit>
+</Item>
+<Item id="862" name="Bara_Fan">
+<Label>Fan Status</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="0">100</Value>
+<Unit>%</Unit>
+</Item>
+<Item id="512" name="Bara_Cool">
+<Label>Compressor Status</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="0">0</Value>
+<Unit>%</Unit>
+</Item>
+<Item id="514" name="Bara_FC">
+<Label>Freecooling Status</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="0">0</Value>
+<Unit>%</Unit>
+</Item>
+<Item id="515" name="Bara_Heat">
+<Label>Heater Status</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="0">0</Value>
+<Unit>%</Unit>
+</Item>
+<Item id="513" name="Bara_Deh">
+<Label>Dehumdification Status</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="0">0</Value>
+<Unit>%</Unit>
+</Item>
+<Item id="516" name="Bara_Hum">
+<Label>Humidifier Status</Label>
+<Value valueType="393216" offset="0.000" gain="1.000" precision="0">0</Value>
+<Unit>%</Unit>
+</Item>
+</icom:SimpleMonitoring>
