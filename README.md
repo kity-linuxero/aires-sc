@@ -1,14 +1,16 @@
 # Monitoreo Liebert / Emerson
 
 Stack de monitoreo con Telegraf, InfluxDB 2 y Grafana. Puede recolectar desde
-snapshots XML de prueba o desde unidades Liebert reales por HTTP.
+snapshots XML de prueba o desde unidades Liebert reales por HTTP.´
+
+![](./screenshots/screenshot.png)
 
 ## Levantar el stack
 
 Crear primero el archivo local de configuración a partir del ejemplo:
 
-```powershell
-Copy-Item .env.example .env
+```bash
+cp .env.example .env
 ```
 
 Editar `.env` y reemplazar todas las credenciales de muestra. Luego levantar los
@@ -56,9 +58,9 @@ MONITORING_MODE=simulation
 
 ```dotenv
 MONITORING_MODE=real
-LIEBERT_AA1_IP=192.168.6.1
-LIEBERT_AA2_IP=192.168.6.2
-LIEBERT_AA3_IP=192.168.6.3
+LIEBERT_AA1_IP=192.168.60.1
+LIEBERT_AA2_IP=192.168.60.2
+LIEBERT_AA3_IP=192.168.60.3
 ```
 
 Después de cambiar el modo o las IP, recrear solamente Telegraf:
