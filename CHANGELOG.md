@@ -12,7 +12,7 @@ cambios incompatibles antes de alcanzar `1.0.0`.
 Los próximos cambios se documentarán en esta sección antes de asignarles una
 versión.
 
-## [0.1.0-alpha.1] - 2026-09-01
+## [0.1.0-alpha.1] - 2026-09-02
 
 Primera pre-release funcional del sistema de monitoreo para unidades de aire
 acondicionado Liebert / Emerson Network Power.
@@ -48,6 +48,8 @@ acondicionado Liebert / Emerson Network Power.
   para explorar el histórico.
 - Archivo `.env.example` y documentación de instalación, operación, cambio de
   modo y reinicialización del stack.
+- Captura inicial del dashboard incluida en el README para mostrar el resultado
+  esperado del despliegue.
 - Configuración de finales de línea para que los scripts shell funcionen al
   clonar el repositorio tanto en Windows como en Linux.
 
@@ -59,6 +61,8 @@ acondicionado Liebert / Emerson Network Power.
   secretos reales.
 - Validación de variables obligatorias en Docker Compose para impedir arranques
   accidentales con credenciales vacías.
+- Dashboards públicos deshabilitados explícitamente en Grafana; el acceso al
+  monitoreo requiere autenticación.
 
 ### Limitaciones conocidas
 

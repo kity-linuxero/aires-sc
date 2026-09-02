@@ -1,7 +1,7 @@
 # Monitoreo Liebert / Emerson
 
 Stack de monitoreo con Telegraf, InfluxDB 2 y Grafana. Puede recolectar desde
-snapshots XML de prueba o desde unidades Liebert reales por HTTP.´
+snapshots XML de prueba o desde unidades Liebert reales por HTTP.
 
 ![](./screenshots/screenshot.png)
 
