@@ -217,7 +217,7 @@
       "type": "bargauge"
     }
   ],
-  "refresh": "10s",
+  "refresh": "1m",
   "schemaVersion": 41,
   "tags": ["Liebert", "Emerson", "demo"],
   "templating": { "list": [] },

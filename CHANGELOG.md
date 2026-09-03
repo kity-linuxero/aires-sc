@@ -15,6 +15,8 @@ versión.
 ### Cambiado
 
 - Rango temporal inicial del dashboard ampliado de 15 minutos a 3 horas.
+- Auto-refresh del dashboard ajustado a 1 minuto para alinearlo con el muestreo
+  de Telegraf en modo real y evitar consultas redundantes.
 - Dominio, URL raíz y orígenes permitidos de Grafana configurables mediante
   `GRAFANA_DOMAIN`, `GRAFANA_ROOT_URL` y `GRAFANA_LIVE_ALLOWED_ORIGINS`.
 
