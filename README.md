@@ -29,6 +29,15 @@ Abrir Grafana en <http://localhost:3000>.
 InfluxDB queda disponible en <http://localhost:8086> con las credenciales
 configuradas en `.env`.
 
+Si Grafana se publica detrás de un proxy reverso o con un dominio propio,
+configurar en `.env`:
+
+```dotenv
+GRAFANA_DOMAIN=grafana.example.com
+GRAFANA_ROOT_URL=https://grafana.example.com
+GRAFANA_LIVE_ALLOWED_ORIGINS=https://grafana.example.com
+```
+
 ## Verificar y detener
 
 ```powershell

@@ -12,6 +12,12 @@ cambios incompatibles antes de alcanzar `1.0.0`.
 Los próximos cambios se documentarán en esta sección antes de asignarles una
 versión.
 
+### Cambiado
+
+- Rango temporal inicial del dashboard ampliado de 15 minutos a 3 horas.
+- Dominio, URL raíz y orígenes permitidos de Grafana configurables mediante
+  `GRAFANA_DOMAIN`, `GRAFANA_ROOT_URL` y `GRAFANA_LIVE_ALLOWED_ORIGINS`.
+
 ## [0.1.0-alpha.1] - 2026-09-02
 
 Primera pre-release funcional del sistema de monitoreo para unidades de aire
