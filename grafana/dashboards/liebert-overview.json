@@ -221,7 +221,7 @@
   "schemaVersion": 41,
   "tags": ["Liebert", "Emerson", "demo"],
   "templating": { "list": [] },
-  "time": { "from": "now-15m", "to": "now" },
+  "time": { "from": "now-3h", "to": "now" },
   "timepicker": {},
   "timezone": "browser",
   "title": "Liebert · Estado general",
