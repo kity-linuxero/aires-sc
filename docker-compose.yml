@@ -34,6 +34,7 @@ services:
       LIEBERT_AA1_IP: ${LIEBERT_AA1_IP:-192.168.6.1}
       LIEBERT_AA2_IP: ${LIEBERT_AA2_IP:-192.168.6.2}
       LIEBERT_AA3_IP: ${LIEBERT_AA3_IP:-192.168.6.3}
+      LIEBERT_SYS_IP: ${LIEBERT_SYS_IP:-192.168.6.4}
       INFLUX_TOKEN: ${INFLUX_TOKEN:?Definir INFLUX_TOKEN en .env}
       INFLUX_ORG: ${INFLUX_ORG:?Definir INFLUX_ORG en .env}
       INFLUX_BUCKET: ${INFLUX_BUCKET:?Definir INFLUX_BUCKET en .env}
@@ -42,6 +43,22 @@ services:
       - ./telegraf/telegraf-demo.conf:/etc/telegraf/telegraf-demo.conf:ro
       - ./telegraf/telegraf.conf:/etc/telegraf/telegraf-real.conf:ro
       - ./datasets:/datasets:ro
+
+  api:
+    build: ./api
+    container_name: aires-api
+    profiles: ["api"]
+    restart: unless-stopped
+    ports:
+      - "${API_PORT:-8000}:8000"
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    environment:
+      API_KEY: ${API_KEY:-}
+      INFLUX_TOKEN: ${INFLUX_TOKEN:?Definir INFLUX_TOKEN en .env}
+      INFLUX_ORG: ${INFLUX_ORG:?Definir INFLUX_ORG en .env}
+      INFLUX_BUCKET: ${INFLUX_BUCKET:?Definir INFLUX_BUCKET en .env}
 
   grafana:
     image: grafana/grafana:12.2.0

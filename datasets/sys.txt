@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+        <meta http-equiv="CACHE-CONTROL" content="NO-CACHE" />
+        <meta http-equiv="EXPIRES" content="-1" />
+        <title>iCOM - Web Interface</title>
+        <link rel="stylesheet" type="text/css" href="img/icom.css">
+</head>
+<body class="clsDocBody">
+<table width="100%" ID="Table1">
+        <tr>
+                <td width="25%" align="left" valign="top">
+                        <a target="_new" href="http://www.emersonnetworkpower.com">
+                                <img style="border: none" alt="Go to Emerson Home Page" src="img/enp.jpg" WIDTH="131" HEIGHT="76" />
+                        </a>
+                </td>
+                <td class="clsHeader" style="font-size: 100%" width="50%" align="center" valign="center">
+                        <span>iCOM</span><br />
+                        <span>Web Interface</span>
+                </td>
+                <td width="25%" align="right" valign="top">
+                        <a target="_new" href="http://www.emersonnetworkpower.com">
+                                <img style="border: none" alt="Go to Emerson Home Page" src="img/enp.jpg" WIDTH="131" HEIGHT="76" />
+                        </a>
+                </td>
+        </tr>
+</table>
+<hr />
+<br><br>
+<h1>The Web Interface is disabled</h1>
+</body>
+<head>
+        <!--
+        NOTE: It's necessary to place this pragma at the end of the page
+        to cover a problem in IE up to V 6.0.
+        See http://support.microsoft.com/kb/222064/EN-US/ for details.
+        -->
+        <meta http-equiv="PRAGMA" content="NO-CACHE" />
+</head>
+</html>
