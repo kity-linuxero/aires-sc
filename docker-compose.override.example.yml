@@ -1,0 +1,26 @@
+# Ajustes propios de cada servidor. Copiar a docker-compose.override.yml
+# (ignorado por git); Compose lo aplica solo sobre docker-compose.yml.
+#
+# Ejemplo: servidor detrás de proxy reverso, con Telegraf en una red macvlan
+# para llegar a los equipos Liebert (192.168.6.x). Requiere Docker Compose >= 2.24.
+#
+# Dominio y URL de Grafana: definirlos en .env (GRAFANA_DOMAIN, GRAFANA_ROOT_URL,
+# GRAFANA_LIVE_ALLOWED_ORIGINS), no acá.
+
+services:
+  influxdb:
+    # No publicar 8086 en el host: solo accesible desde la red de Docker.
+    ports: !reset []
+
+  telegraf:
+    networks:
+      default:
+      aires-macvlan:
+        ipv4_address: 192.168.6.5
+
+networks:
+  # Red macvlan creada previamente con `docker network create -d macvlan ...`
+  aires-macvlan:
+    external: true
+  default:
+    name: aires-net

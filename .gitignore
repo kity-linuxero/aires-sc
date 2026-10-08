@@ -12,3 +12,6 @@ telegraf/.cache/
 Thumbs.db
 .idea/
 .vscode/
+
+# Ajustes locales del servidor
+docker-compose.override.yml
