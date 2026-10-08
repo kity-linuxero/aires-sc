@@ -78,6 +78,7 @@ services:
       GF_SERVER_DOMAIN: ${GRAFANA_DOMAIN:-localhost}
       GF_FEATURE_TOGGLES_ENABLE: "-publicDashboards"
       GF_PUBLIC_DASHBOARDS_ENABLED: "false"
+      GF_PLUGINS_PREINSTALL_SYNC: marcusolsson-dynamictext-panel
       INFLUX_TOKEN: ${INFLUX_TOKEN:?Definir INFLUX_TOKEN en .env}
       INFLUX_ORG: ${INFLUX_ORG:?Definir INFLUX_ORG en .env}
       INFLUX_BUCKET: ${INFLUX_BUCKET:?Definir INFLUX_BUCKET en .env}

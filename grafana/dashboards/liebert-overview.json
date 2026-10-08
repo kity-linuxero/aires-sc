@@ -1,5 +1,7 @@
 {
-  "annotations": { "list": [] },
+  "annotations": {
+    "list": []
+  },
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
@@ -8,56 +10,73 @@
   "liveNow": false,
   "panels": [
     {
-      "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
-      "description": "Estado informado por cada unidad Liebert.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "displayName": "${__field.labels.equipo}",
-          "mappings": [
-            { "options": { "0": { "color": "green", "index": 0, "text": "Normal" }, "1": { "color": "yellow", "index": 1, "text": "Advertencia" }, "2": { "color": "red", "index": 2, "text": "Alarma" } }, "type": "value" }
-          ],
-          "noValue": "Sin datos",
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }
-        },
-        "overrides": []
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb-aires"
       },
-      "gridPos": { "h": 3, "w": 24, "x": 0, "y": 29 },
-      "id": 1,
-      "options": { "colorMode": "value", "graphMode": "none", "justifyMode": "center", "orientation": "horizontal", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
-      "pluginVersion": "12.2.0",
-      "targets": [
-        {
-          "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
-          "query": "from(bucket: \"aires\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_str\" and r.item_name == \"SinglState\")\n  |> group(columns: [\"equipo\"])\n  |> last()\n  |> map(fn: (r) => ({r with _value: if r._value == \"Alarm On\" then 2.0 else if r._value == \"Warning On\" then 1.0 else 0.0}))\n  |> keep(columns: [\"_time\", \"_value\", \"equipo\"])",
-          "refId": "A"
-        }
-      ],
-      "title": "Estado de unidades",
-      "transformations": [],
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
       "description": "Promedio de la última temperatura disponible de cada unidad. Las unidades sin dato quedan excluidas.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "decimals": 1,
           "max": 35,
           "min": 10,
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }, { "color": "green", "value": 18 }, { "color": "yellow", "value": 24 }, { "color": "red", "value": 27 }] },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 18
+              },
+              {
+                "color": "yellow",
+                "value": 24
+              },
+              {
+                "color": "red",
+                "value": 27
+              }
+            ]
+          },
           "unit": "celsius"
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
       "id": 2,
-      "options": { "minVizHeight": 75, "minVizWidth": 75, "orientation": "horizontal", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true, "sizing": "auto" },
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
       "pluginVersion": "12.2.0",
       "targets": [
         {
-          "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-aires"
+          },
           "query": "from(bucket: \"aires\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"LocTemp\")\n  |> group(columns: [\"equipo\"])\n  |> last()\n  |> group()\n  |> mean(column: \"_value\")\n  |> keep(columns: [\"_time\", \"_value\"])",
           "refId": "A"
         }
@@ -66,26 +85,77 @@
       "type": "gauge"
     },
     {
-      "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb-aires"
+      },
       "description": "Promedio de la última humedad disponible de cada unidad. Las unidades sin dato quedan excluidas.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "decimals": 1,
           "max": 100,
           "min": 0,
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 35 }, { "color": "green", "value": 40 }, { "color": "yellow", "value": 60 }, { "color": "red", "value": 70 }] },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 35
+              },
+              {
+                "color": "green",
+                "value": 40
+              },
+              {
+                "color": "yellow",
+                "value": 60
+              },
+              {
+                "color": "red",
+                "value": 70
+              }
+            ]
+          },
           "unit": "percent"
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 0 },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
       "id": 3,
-      "options": { "minVizHeight": 75, "minVizWidth": 75, "orientation": "horizontal", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showThresholdLabels": false, "showThresholdMarkers": true, "sizing": "auto" },
+      "options": {
+        "minVizHeight": 75,
+        "minVizWidth": 75,
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
+      },
       "pluginVersion": "12.2.0",
       "targets": [
         {
-          "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-aires"
+          },
           "query": "from(bucket: \"aires\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"HT_Humi\")\n  |> group(columns: [\"equipo\"])\n  |> last()\n  |> group()\n  |> mean(column: \"_value\")\n  |> keep(columns: [\"_time\", \"_value\"])",
           "refId": "A"
         }
@@ -94,78 +164,165 @@
       "type": "gauge"
     },
     {
-      "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
-      "description": "Última temperatura de retorno disponible por equipo.",
+      "id": 7,
+      "type": "marcusolsson-dynamictext-panel",
+      "title": "",
+      "transparent": true,
+      "description": "Estado de cada unidad. Verde = activo (% de capacidad), gris = inactivo o sin dato, ámbar = advertencia o alarma.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb-aires"
+      },
+      "gridPos": {
+        "h": 19,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "options": {
+        "renderMode": "everyRow",
+        "content": "<div class=\"u {{st_cls}}\">\n  <div class=\"hd\">\n    <span class=\"nm\">{{equipo}}</span>\n    <span class=\"pill {{st_cls}}\"><i class=\"ti {{st_icon}}\"></i>{{st_txt}}</span>\n    <div class=\"rd\">\n      <span class=\"{{t_cls}}\"><i class=\"ti ti-temperature\"></i> Retorno <b>{{t_txt}}</b></span>\n      <span class=\"{{h_cls}}\"><i class=\"ti ti-droplet-half-2\"></i> Humedad <b>{{h_txt}}</b></span>\n    </div>\n  </div>\n  <div class=\"g\">\n    <div class=\"t {{fan_cls}}\"><i class=\"ti ti-propeller\"></i><div class=\"l\">Ventilador</div><div class=\"v\">{{fan_txt}}</div></div>\n    <div class=\"t {{cool_cls}}\"><i class=\"ti ti-snowflake\"></i><div class=\"l\">Compresor</div><div class=\"v\">{{cool_txt}}</div></div>\n    <div class=\"t {{deh_cls}}\"><i class=\"ti ti-droplet-off\"></i><div class=\"l\">Deshumidif.</div><div class=\"v\">{{deh_txt}}</div></div>\n    <div class=\"t {{hum_cls}}\"><i class=\"ti ti-droplet\"></i><div class=\"l\">Humidificador</div><div class=\"v\">{{hum_txt}}</div></div>\n  </div>\n</div>\n",
+        "styles": ".u{border:1px solid rgba(128,128,128,.28);border-radius:12px;padding:14px 16px;margin:0 0 12px;background:rgba(128,128,128,.07)}\n.u.wn{border:2px solid #F2A900}\n.hd{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}\n.nm{font-size:20px;font-weight:600;text-transform:lowercase}\n.pill{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;padding:4px 12px;border-radius:8px}\n.pill i{font-size:18px}\n.pill.ok{background:rgba(46,158,91,.22);color:#4fd18a}\n.pill.wn{background:rgba(242,169,0,.22);color:#F2A900}\n.pill.na{background:rgba(128,128,128,.2)}\n.rd{margin-left:auto;display:flex;gap:22px;font-size:13px;opacity:.95}\n.rd b{font-size:22px;font-weight:600;margin-left:4px}\n.rd .wn b{color:#F2A900}\n.g{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}\n.t{border-radius:8px;padding:12px 6px 10px;text-align:center;border:1px solid rgba(128,128,128,.25)}\n.t i{font-size:34px;display:block;margin-bottom:6px}\n.t .l{font-size:13px}\n.t .v{font-size:16px;font-weight:600}\n.t.on{background:rgba(46,158,91,.22);color:#4fd18a;border-color:rgba(46,158,91,.6)}\n.t.off,.t.na{background:rgba(128,128,128,.12);color:rgba(150,150,150,.9)}\n",
+        "externalStyles": [
+          {
+            "name": "tabler-icons",
+            "url": "https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.3.0/dist/tabler-icons.min.css"
+          }
+        ],
+        "helpers": "",
+        "afterRender": "",
+        "contentPartials": [],
+        "defaultContent": "<p>Sin datos</p>",
+        "editors": [],
+        "wrap": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-aires"
+          },
+          "refId": "A",
+          "query": "import \"math\"\n\npct = (v) => if exists v then string(v: int(v: math.round(x: v))) + \" %\" else \"—\"\ncls = (v) => if exists v then (if v > 0.0 then \"on\" else \"off\") else \"na\"\nnum = (v, unit) => if exists v then string(v: math.round(x: v * 10.0) / 10.0) + unit else \"—\"\n\nbase = from(bucket: \"aires\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\")\n\nnums = base\n  |> filter(fn: (r) => r._field == \"value_num\" and contains(value: r.item_name, set: [\"LocTemp\", \"HT_Humi\", \"Bara_Fan\", \"Bara_Cool\", \"Bara_Deh\", \"Bara_Hum\"]))\n  |> group(columns: [\"equipo\", \"item_name\"])\n  |> last()\n  |> keep(columns: [\"equipo\", \"item_name\", \"_value\"])\n\nstate = base\n  |> filter(fn: (r) => r._field == \"value_str\" and r.item_name == \"SinglState\")\n  |> group(columns: [\"equipo\", \"item_name\"])\n  |> last()\n  |> map(fn: (r) => ({equipo: r.equipo, item_name: r.item_name, _value: if r._value == \"Alarm On\" then 2.0 else if r._value == \"Warning On\" then 1.0 else 0.0}))\n\nunion(tables: [nums, state])\n  |> group()\n  |> pivot(rowKey: [\"equipo\"], columnKey: [\"item_name\"], valueColumn: \"_value\")\n  |> map(fn: (r) => ({\n      equipo: r.equipo,\n      st_cls: if not exists r.SinglState then \"na\" else if r.SinglState > 0.0 then \"wn\" else \"ok\",\n      st_icon: if exists r.SinglState and r.SinglState > 0.0 then \"ti-alert-triangle\" else \"ti-circle-check\",\n      st_txt: if not exists r.SinglState then \"Sin dato\" else if r.SinglState >= 2.0 then \"Alarma activa\" else if r.SinglState >= 1.0 then \"Advertencia\" else \"Normal\",\n      t_txt: num(v: r.LocTemp, unit: \" °C\"),\n      t_cls: if exists r.LocTemp and r.LocTemp >= 27.0 then \"wn\" else \"\",\n      h_txt: num(v: r.HT_Humi, unit: \" %\"),\n      h_cls: if exists r.HT_Humi and (r.HT_Humi < 30.0 or r.HT_Humi >= 65.0) then \"wn\" else \"\",\n      fan_cls: cls(v: r.Bara_Fan), fan_txt: pct(v: r.Bara_Fan),\n      cool_cls: cls(v: r.Bara_Cool), cool_txt: pct(v: r.Bara_Cool),\n      deh_cls: cls(v: r.Bara_Deh), deh_txt: pct(v: r.Bara_Deh),\n      hum_cls: cls(v: r.Bara_Hum), hum_txt: pct(v: r.Bara_Hum)\n  }))\n  |> sort(columns: [\"equipo\"])\n"
+        }
+      ]
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb-aires"
+      },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
           "decimals": 1,
-          "displayName": "${__field.labels.equipo}",
-          "mappings": [],
-          "noValue": "Sin datos",
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "blue", "value": null }, { "color": "green", "value": 18 }, { "color": "yellow", "value": 24 }, { "color": "red", "value": 27 }] },
+          "displayName": "${__field.labels.equipo} · ${__field.labels.item_name}",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
           "unit": "celsius"
         },
-        "overrides": []
-      },
-      "gridPos": { "h": 5, "w": 12, "x": 0, "y": 7 },
-      "id": 7,
-      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "center", "orientation": "horizontal", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
-      "pluginVersion": "12.2.0",
-      "targets": [
-        {
-          "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
-          "query": "from(bucket: \"aires\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"LocTemp\")\n  |> group(columns: [\"equipo\"])\n  |> last()\n  |> keep(columns: [\"_time\", \"_value\", \"equipo\"])",
-          "refId": "A"
-        }
-      ],
-      "title": "Temperatura por equipo",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
-      "description": "Última humedad relativa de retorno disponible por equipo.",
-      "fieldConfig": {
-        "defaults": {
-          "color": { "mode": "thresholds" },
-          "decimals": 1,
-          "displayName": "${__field.labels.equipo}",
-          "mappings": [],
-          "noValue": "Sin datos",
-          "thresholds": { "mode": "absolute", "steps": [{ "color": "red", "value": null }, { "color": "yellow", "value": 35 }, { "color": "green", "value": 40 }, { "color": "yellow", "value": 60 }, { "color": "red", "value": 70 }] },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": { "h": 5, "w": 12, "x": 12, "y": 7 },
-      "id": 8,
-      "options": { "colorMode": "value", "graphMode": "area", "justifyMode": "center", "orientation": "horizontal", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showPercentChange": false, "textMode": "auto", "wideLayout": true },
-      "pluginVersion": "12.2.0",
-      "targets": [
-        {
-          "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
-          "query": "from(bucket: \"aires\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"HT_Humi\")\n  |> group(columns: [\"equipo\"])\n  |> last()\n  |> keep(columns: [\"_time\", \"_value\", \"equipo\"])",
-          "refId": "A"
-        }
-      ],
-      "title": "Humedad por equipo",
-      "type": "stat"
-    },
-    {
-      "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
-      "fieldConfig": {
-        "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisColorMode": "text", "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "barWidthFactor": 0.6, "drawStyle": "line", "fillOpacity": 12, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "insertNulls": false, "lineInterpolation": "linear", "lineWidth": 2, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": false, "stacking": { "group": "A", "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "decimals": 1, "displayName": "${__field.labels.equipo} · ${__field.labels.item_name}", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }, "unit": "celsius" },
         "overrides": [
-          { "matcher": { "id": "byRegexp", "options": "/TempSet_ac/" }, "properties": [{ "id": "custom.lineStyle", "value": { "dash": [10, 10], "fill": "dash" } }, { "id": "custom.fillOpacity", "value": 0 }] }
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/TempSet_ac/"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          }
         ]
       },
-      "gridPos": { "h": 9, "w": 12, "x": 0, "y": 12 },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 26
+      },
       "id": 4,
-      "options": { "legend": { "calcs": ["lastNotNull", "min", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }, "tooltip": { "hideZeros": false, "mode": "multi", "sort": "none" } },
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
       "pluginVersion": "12.2.0",
       "targets": [
         {
-          "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-aires"
+          },
           "query": "from(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\")\n  |> filter(fn: (r) => r.item_name == \"LocTemp\" or r.item_name == \"TempSet_ac\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
@@ -174,54 +331,139 @@
       "type": "timeseries"
     },
     {
-      "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb-aires"
+      },
       "fieldConfig": {
-        "defaults": { "color": { "mode": "palette-classic" }, "custom": { "axisBorderShow": false, "axisCenteredZero": false, "axisColorMode": "text", "axisLabel": "", "axisPlacement": "auto", "barAlignment": 0, "barWidthFactor": 0.6, "drawStyle": "line", "fillOpacity": 12, "gradientMode": "none", "hideFrom": { "legend": false, "tooltip": false, "viz": false }, "insertNulls": false, "lineInterpolation": "linear", "lineWidth": 2, "pointSize": 5, "scaleDistribution": { "type": "linear" }, "showPoints": "never", "spanNulls": false, "stacking": { "group": "A", "mode": "none" }, "thresholdsStyle": { "mode": "off" } }, "decimals": 1, "displayName": "${__field.labels.equipo} · ${__field.labels.item_name}", "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }] }, "unit": "percent" },
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "barWidthFactor": 0.6,
+            "drawStyle": "line",
+            "fillOpacity": 12,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "decimals": 1,
+          "displayName": "${__field.labels.equipo} · ${__field.labels.item_name}",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "percent"
+        },
         "overrides": [
-          { "matcher": { "id": "byRegexp", "options": "/HuSetActDi/" }, "properties": [{ "id": "custom.lineStyle", "value": { "dash": [10, 10], "fill": "dash" } }, { "id": "custom.fillOpacity", "value": 0 }] }
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": "/HuSetActDi/"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
+                }
+              },
+              {
+                "id": "custom.fillOpacity",
+                "value": 0
+              }
+            ]
+          }
         ]
       },
-      "gridPos": { "h": 9, "w": 12, "x": 12, "y": 12 },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 26
+      },
       "id": 5,
-      "options": { "legend": { "calcs": ["lastNotNull", "min", "max"], "displayMode": "table", "placement": "bottom", "showLegend": true }, "tooltip": { "hideZeros": false, "mode": "multi", "sort": "none" } },
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
       "pluginVersion": "12.2.0",
       "targets": [
         {
-          "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-aires"
+          },
           "query": "from(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\")\n  |> filter(fn: (r) => r.item_name == \"HT_Humi\" or r.item_name == \"HuSetActDi\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
           "refId": "A"
         }
       ],
       "title": "Humedad de retorno vs setpoint",
       "type": "timeseries"
-    },
-    {
-      "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
-      "description": "Último porcentaje informado por ventilador, compresor, freecooling, calefactor, deshumidificador y humidificador.",
-      "fieldConfig": {
-        "defaults": { "color": { "mode": "continuous-GrYlRd" }, "decimals": 0, "displayName": "${__field.labels.equipo} · ${__field.labels.item_name}", "max": 100, "min": 0, "thresholds": { "mode": "absolute", "steps": [{ "color": "green", "value": null }, { "color": "yellow", "value": 70 }, { "color": "red", "value": 90 }] }, "unit": "percent" },
-        "overrides": []
-      },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 21 },
-      "id": 6,
-      "options": { "displayMode": "gradient", "legend": { "calcs": [], "displayMode": "list", "placement": "bottom", "showLegend": false }, "maxVizHeight": 300, "minVizHeight": 16, "minVizWidth": 8, "namePlacement": "auto", "orientation": "horizontal", "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false }, "showUnfilled": true, "sizing": "auto", "valueMode": "color" },
-      "pluginVersion": "12.2.0",
-      "targets": [
-        {
-          "datasource": { "type": "influxdb", "uid": "influxdb-aires" },
-          "query": "from(bucket: \"aires\")\n  |> range(start: -5m)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\")\n  |> filter(fn: (r) => r.item_name =~ /^Bara_/)\n  |> group(columns: [\"equipo\", \"item_name\"])\n  |> last()\n  |> keep(columns: [\"_time\", \"_value\", \"equipo\", \"item_name\"])",
-          "refId": "A"
-        }
-      ],
-      "title": "Actuadores actuales",
-      "type": "bargauge"
     }
   ],
   "refresh": "1m",
   "schemaVersion": 41,
-  "tags": ["Liebert", "Emerson", "demo"],
-  "templating": { "list": [] },
-  "time": { "from": "now-3h", "to": "now" },
+  "tags": [
+    "Liebert",
+    "Emerson",
+    "demo"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
   "timepicker": {},
   "timezone": "browser",
   "title": "Liebert · Estado general",

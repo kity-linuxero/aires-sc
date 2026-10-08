@@ -14,6 +14,13 @@ versión.
 
 ### Cambiado
 
+- Dashboard: una tarjeta por equipo (panel Business Text) con estado, retorno,
+  humedad y testigos de ventilador, compresor, deshumidificador y humidificador.
+  Reemplaza los paneles de temperatura, humedad, estado y actuadores por equipo.
+  Requiere el plugin `marcusolsson-dynamictext-panel` (instalado por
+  `GF_PLUGINS_PREINSTALL_SYNC`) y que el navegador alcance `cdn.jsdelivr.net`
+  para los íconos. Fuente editable en `grafana/src/`; regenerar el JSON con
+  `python grafana/build-dashboard.py`.
 - Rango temporal inicial del dashboard ampliado de 15 minutos a 3 horas.
 - Auto-refresh del dashboard ajustado a 1 minuto para alinearlo con el muestreo
   de Telegraf en modo real y evitar consultas redundantes.
