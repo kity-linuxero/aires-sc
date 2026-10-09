@@ -48,21 +48,23 @@ from(bucket: "{BUCKET}")
   |> range(start: -{LATEST_WINDOW})
   |> filter(fn: (r) => r._measurement == "liebert_ac" and r.equipo == "{equipo}")
   |> last()
-  |> pivot(rowKey: ["_time", "item_id", "item_name", "label", "unit"], columnKey: ["_field"], valueColumn: "_value")
 '''
-    items, ts, ip = [], None, None
+    by_item, ts, ip = {}, None, None
     for table in query_api.query(flux):
         for r in table.records:
             ts = max(ts, r.get_time()) if ts else r.get_time()
             ip = r.values.get("ip", ip)
-            items.append({
+            # Influx no guarda tags vacios (p. ej. unit), asi que no se puede hacer pivot por tag.
+            item = by_item.setdefault(r.values.get("item_id"), {
                 "id": r.values.get("item_id"),
                 "name": r.values.get("item_name"),
                 "label": r.values.get("label"),
                 "unit": r.values.get("unit") or "",
-                "value": r.values.get("value_num"),
-                "text": r.values.get("value_str"),
+                "value": None,
+                "text": None,
             })
+            item["value" if r.get_field() == "value_num" else "text"] = r.get_value()
+    items = list(by_item.values())
     items.sort(key=lambda i: int(i["id"] or 0))
     return {
         "equipo": equipo,
