@@ -212,6 +212,341 @@
       ]
     },
     {
+      "id": 9,
+      "type": "timeseries",
+      "title": "Historial de funcionamiento · compresor y ventilador",
+      "description": "Momentos en que estuvo encendido el compresor y el ventilador de cada aire. Cada serie tiene su propio carril: arriba = encendido, abajo = apagado.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb-aires"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
+      "fieldConfig": {
+        "defaults": {
+          "displayName": "${__field.labels.serie}",
+          "min": 0,
+          "max": 6,
+          "decimals": 0,
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "stepAfter",
+            "lineWidth": 3,
+            "fillOpacity": 0,
+            "showPoints": "never",
+            "spanNulls": true,
+            "axisPlacement": "hidden",
+            "axisSoftMin": 0,
+            "axisSoftMax": 6,
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa1 · Compresor"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3274D9"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 4.99,
+                      "to": 5.01,
+                      "result": {
+                        "text": "Apagado",
+                        "color": "#6b7078",
+                        "index": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 5.6899999999999995,
+                      "to": 5.71,
+                      "result": {
+                        "text": "Encendido",
+                        "color": "#3274D9",
+                        "index": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa1 · Ventilador"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#2e9e5b"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 3.99,
+                      "to": 4.01,
+                      "result": {
+                        "text": "Apagado",
+                        "color": "#6b7078",
+                        "index": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 4.6899999999999995,
+                      "to": 4.71,
+                      "result": {
+                        "text": "Encendido",
+                        "color": "#2e9e5b",
+                        "index": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa2 · Compresor"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3274D9"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 2.99,
+                      "to": 3.01,
+                      "result": {
+                        "text": "Apagado",
+                        "color": "#6b7078",
+                        "index": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 3.69,
+                      "to": 3.71,
+                      "result": {
+                        "text": "Encendido",
+                        "color": "#3274D9",
+                        "index": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa2 · Ventilador"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#2e9e5b"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 1.99,
+                      "to": 2.01,
+                      "result": {
+                        "text": "Apagado",
+                        "color": "#6b7078",
+                        "index": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 2.69,
+                      "to": 2.71,
+                      "result": {
+                        "text": "Encendido",
+                        "color": "#2e9e5b",
+                        "index": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa3 · Compresor"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#3274D9"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 0.99,
+                      "to": 1.01,
+                      "result": {
+                        "text": "Apagado",
+                        "color": "#6b7078",
+                        "index": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 1.69,
+                      "to": 1.71,
+                      "result": {
+                        "text": "Encendido",
+                        "color": "#3274D9",
+                        "index": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa3 · Ventilador"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#2e9e5b"
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": -0.01,
+                      "to": 0.01,
+                      "result": {
+                        "text": "Apagado",
+                        "color": "#6b7078",
+                        "index": 0
+                      }
+                    }
+                  },
+                  {
+                    "type": "range",
+                    "options": {
+                      "from": 0.69,
+                      "to": 0.71,
+                      "result": {
+                        "text": "Encendido",
+                        "color": "#2e9e5b",
+                        "index": 1
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "showLegend": true,
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": []
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-aires"
+          },
+          "refId": "A",
+          "query": "// Cada serie ocupa su propio carril (0 a 5) para que no se superpongan.\n// Encendido = carril + 0.7, apagado = carril. Los mappings del panel traducen el valor.\nfrom(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and contains(value: r.item_name, set: [\"Bara_Cool\", \"Bara_Fan\"]))\n  |> map(fn: (r) => {\n      unit = if r.equipo == \"aa1\" then 0 else if r.equipo == \"aa2\" then 1 else 2\n      kind = if r.item_name == \"Bara_Cool\" then 0 else 1\n      lane = float(v: 5 - (unit * 2 + kind))\n      return {r with\n        _value: if r._value > 0.0 then lane + 0.7 else lane,\n        serie: r.equipo + \" · \" + (if kind == 0 then \"Compresor\" else \"Ventilador\")\n      }\n  })\n  |> group(columns: [\"serie\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: max, createEmpty: false)\n  |> keep(columns: [\"_time\", \"_value\", \"serie\"])\n  |> sort(columns: [\"serie\"])\n"
+        }
+      ]
+    },
+    {
       "datasource": {
         "type": "influxdb",
         "uid": "influxdb-aires"
@@ -296,7 +631,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 26
+        "y": 36
       },
       "id": 4,
       "options": {
@@ -415,7 +750,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 26
+        "y": 36
       },
       "id": 5,
       "options": {
