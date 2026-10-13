@@ -28,9 +28,12 @@ versión.
   modo kiosco) con todo a la vista sin scroll y sin el historial de funcionamiento.
   Se genera con `grafana/build-dashboard.py` a partir de los mismos paneles que el
   dashboard principal, que no cambia. En un TV 4K, usar zoom 200 % del navegador.
+  Oculta el selector de tiempo para aprovechar toda la altura; F11 para pantalla
+  completa en el navegador.
 
 ### Cambiado
 
+- Dashboard: aa3 pasa de violeta a verde en las tortas de uso.
 - Dashboard: una tarjeta por equipo (panel Business Text) con estado, retorno,
   humedad y testigos de ventilador, compresor, deshumidificador y humidificador.
   Reemplaza los paneles de temperatura, humedad, estado y actuadores por equipo.
