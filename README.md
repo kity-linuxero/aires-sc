@@ -88,6 +88,77 @@ producción.
 > creación inicial del volumen. Cambiar `.env` no modifica las credenciales de
 > un volumen que ya fue inicializado.
 
+## Notificaciones por Telegram
+
+El servicio `notifier` es opcional (profile `notifier`) y **no necesita la API**:
+lee directo de InfluxDB. Cada 60 s revisa la temperatura de retorno (`LocTemp`)
+de `aa1`, `aa2`, `aa3` y `system` y manda un mensaje al grupo cuando:
+
+- supera `TEMP_HIGH` o baja de `TEMP_LOW` (🔥 / 🥶);
+- sigue fuera de rango, como recordatorio cada `NOTIFY_REPEAT_MIN` minutos (⏰);
+- vuelve a la normalidad, con `TEMP_HYSTERESIS` °C de margen (✅).
+
+Un equipo sin datos recientes (por ejemplo `system` mientras esté deshabilitado)
+se ignora.
+
+### 1. Crear el bot y obtener el id del grupo
+
+1. En Telegram, hablar con [@BotFather](https://t.me/BotFather), `/newbot`, y
+   copiar el token.
+2. Agregar el bot al grupo de trabajo.
+3. Escribir un mensaje en el grupo y buscar el id con:
+
+   ```bash
+   python notifier/telegram_test.py --updates
+   ```
+
+   Si no aparece ningún chat, desactivar el modo privacidad del bot
+   (`/setprivacy` en @BotFather) o mencionar al bot en el grupo. Los ids de
+   grupo son negativos (por ejemplo `-1001234567890`).
+
+### 2. Configurar `.env`
+
+```dotenv
+TELEGRAM_BOT_TOKEN=123456789:token-del-bot
+TELEGRAM_CHAT_ID=-1001234567890
+TEMP_HIGH=28
+TEMP_LOW=16
+```
+
+Opcionalmente se pueden fijar límites por equipo (`TEMP_HIGH_AA1`,
+`TEMP_LOW_AA2`, `TEMP_HIGH_SYSTEM`, etc.), que pisan al límite general. Los
+demás parámetros (`TEMP_HYSTERESIS`, `NOTIFY_INTERVAL`, `NOTIFY_REPEAT_MIN`)
+están documentados en `.env.example`. **Los valores de límite que trae el
+ejemplo son orientativos: ajustarlos a la operación real.**
+
+> `.env` está en `.gitignore`. El token del bot da control total sobre el bot:
+> nunca subirlo al repositorio. Si se filtra, revocarlo con `/revoke` en
+> @BotFather.
+
+### 3. Probar y levantar
+
+Enviar un mensaje de prueba al grupo (verifica token e id):
+
+```bash
+python notifier/telegram_test.py
+```
+
+Levantar el notificador (el stack debe estar corriendo):
+
+```powershell
+docker compose --profile notifier up -d --build
+docker compose logs -f notifier
+```
+
+Si se cambian los límites en `.env`: `docker compose --profile notifier up -d --force-recreate notifier`.
+Para apagarlo: `docker compose stop notifier`.
+
+Sin Python en el host, la prueba también se puede hacer desde el contenedor:
+`docker compose --profile notifier run --rm notifier python telegram_test.py`.
+
+El estado de las alertas vive en memoria: al reiniciar el servicio, si un
+equipo sigue fuera de rango se vuelve a avisar.
+
 ## API de consulta
 
 El servicio `api` es opcional: está en el profile `api`, así que

@@ -60,6 +60,34 @@ services:
       INFLUX_ORG: ${INFLUX_ORG:?Definir INFLUX_ORG en .env}
       INFLUX_BUCKET: ${INFLUX_BUCKET:?Definir INFLUX_BUCKET en .env}
 
+  notifier:
+    build: ./notifier
+    container_name: aires-notifier
+    profiles: ["notifier"]
+    restart: unless-stopped
+    depends_on:
+      influxdb:
+        condition: service_healthy
+    environment:
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN:?Definir TELEGRAM_BOT_TOKEN en .env}
+      TELEGRAM_CHAT_ID: ${TELEGRAM_CHAT_ID:?Definir TELEGRAM_CHAT_ID en .env}
+      TEMP_HIGH: ${TEMP_HIGH:-28}
+      TEMP_LOW: ${TEMP_LOW:-16}
+      TEMP_HYSTERESIS: ${TEMP_HYSTERESIS:-1}
+      TEMP_HIGH_AA1: ${TEMP_HIGH_AA1:-}
+      TEMP_HIGH_AA2: ${TEMP_HIGH_AA2:-}
+      TEMP_HIGH_AA3: ${TEMP_HIGH_AA3:-}
+      TEMP_HIGH_SYSTEM: ${TEMP_HIGH_SYSTEM:-}
+      TEMP_LOW_AA1: ${TEMP_LOW_AA1:-}
+      TEMP_LOW_AA2: ${TEMP_LOW_AA2:-}
+      TEMP_LOW_AA3: ${TEMP_LOW_AA3:-}
+      TEMP_LOW_SYSTEM: ${TEMP_LOW_SYSTEM:-}
+      NOTIFY_INTERVAL: ${NOTIFY_INTERVAL:-60}
+      NOTIFY_REPEAT_MIN: ${NOTIFY_REPEAT_MIN:-60}
+      INFLUX_TOKEN: ${INFLUX_TOKEN:?Definir INFLUX_TOKEN en .env}
+      INFLUX_ORG: ${INFLUX_ORG:?Definir INFLUX_ORG en .env}
+      INFLUX_BUCKET: ${INFLUX_BUCKET:?Definir INFLUX_BUCKET en .env}
+
   grafana:
     image: grafana/grafana:12.2.0
     container_name: aires-grafana

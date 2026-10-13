@@ -12,6 +12,17 @@ cambios incompatibles antes de alcanzar `1.0.0`.
 Los próximos cambios se documentarán en esta sección antes de asignarles una
 versión.
 
+### Añadido
+
+- Servicio opcional `notifier` (profile `notifier`): avisa por Telegram cuando la
+  temperatura de retorno supera `TEMP_HIGH` o baja de `TEMP_LOW`, recuerda
+  mientras siga fuera de rango y avisa al normalizarse. Lee de InfluxDB, sin
+  depender de la API. Límites configurables por equipo en `.env`.
+- `notifier/telegram_test.py`: prueba de conexión del bot, listado de chats
+  (`--updates`) y alerta simulada (`--alert-test`).
+- Dashboard: columna de promedio (Mean) en la leyenda de "Temperatura de
+  retorno vs setpoint".
+
 ### Cambiado
 
 - Dashboard: una tarjeta por equipo (panel Business Text) con estado, retorno,
