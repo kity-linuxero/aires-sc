@@ -255,7 +255,7 @@
             }
           },
           "decimals": 1,
-          "displayName": "${__field.labels.equipo} · ${__field.labels.item_name}",
+          "displayName": "${__field.labels.equipo}",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -270,10 +270,66 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byRegexp",
-              "options": "/TempSet_ac/"
+              "id": "byName",
+              "options": "aa1"
             },
             "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#5794F2"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa2"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#FF9830"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa3"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#73BF69"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Setpoint"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#C7D0D9"
+                }
+              },
               {
                 "id": "custom.lineStyle",
                 "value": {
@@ -296,7 +352,7 @@
         "x": 0,
         "y": 14,
         "w": 12,
-        "h": 13
+        "h": 9
       },
       "id": 4,
       "options": {
@@ -322,8 +378,16 @@
             "type": "influxdb",
             "uid": "influxdb-aires"
           },
-          "query": "from(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\")\n  |> filter(fn: (r) => r.item_name == \"LocTemp\" or r.item_name == \"TempSet_ac\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"LocTemp\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)",
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-aires"
+          },
+          "query": "from(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"TempSet_ac\")\n  |> group(columns: [\"item_name\"])\n  |> sort(columns: [\"_time\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)",
+          "refId": "B"
         }
       ],
       "title": "Temperatura de retorno vs setpoint",
@@ -373,7 +437,7 @@
             }
           },
           "decimals": 1,
-          "displayName": "${__field.labels.equipo} · ${__field.labels.item_name}",
+          "displayName": "${__field.labels.equipo}",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -388,10 +452,66 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byRegexp",
-              "options": "/HuSetActDi/"
+              "id": "byName",
+              "options": "aa1"
             },
             "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#5794F2"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa2"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#FF9830"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa3"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#73BF69"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Setpoint"
+              },
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#C7D0D9"
+                }
+              },
               {
                 "id": "custom.lineStyle",
                 "value": {
@@ -414,7 +534,7 @@
         "x": 12,
         "y": 14,
         "w": 12,
-        "h": 13
+        "h": 9
       },
       "id": 5,
       "options": {
@@ -440,8 +560,16 @@
             "type": "influxdb",
             "uid": "influxdb-aires"
           },
-          "query": "from(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\")\n  |> filter(fn: (r) => r.item_name == \"HT_Humi\" or r.item_name == \"HuSetActDi\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\n  |> yield(name: \"mean\")",
+          "query": "from(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"HT_Humi\")\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)",
           "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-aires"
+          },
+          "query": "from(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"HuSetActDi\")\n  |> group(columns: [\"item_name\"])\n  |> sort(columns: [\"_time\"])\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)",
+          "refId": "B"
         }
       ],
       "title": "Humedad de retorno vs setpoint",
