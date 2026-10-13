@@ -29,7 +29,8 @@ versión.
   funcionamiento. Las tarjetas de equipo son compactas: cada testigo es solo el
   icono con su color (verde = encendido).
   Se genera con `grafana/build-dashboard.py` a partir de los mismos paneles que el
-  dashboard principal, que no cambia. En un TV 4K, usar zoom 200 % del navegador.
+  dashboard principal, que no cambia. Entra sin scroll en 1920x1080 y tambien con
+  zoom 125 % del navegador; en un TV 4K, usar zoom 200 %.
   Oculta el selector de tiempo para aprovechar toda la altura; F11 para pantalla
   completa en el navegador.
 
