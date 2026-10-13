@@ -12,5 +12,5 @@ history = next(p for p in dash["panels"] if p["id"] == 9)
 history["targets"][0]["query"] = (root / "src/history.flux").read_text(encoding="utf-8")
 usage = (root / "src/usage.flux").read_text(encoding="utf-8")
 next(p for p in dash["panels"] if p["id"] == 10)["targets"][0]["query"] = usage
-next(p for p in dash["panels"] if p["id"] == 11)["targets"][0]["query"] = usage.replace("Bara_Cool", "Bara_Fan")
+next(p for p in dash["panels"] if p["id"] == 11)["targets"][0]["query"] = usage.replace('item_name == "Bara_Cool"', 'item_name == "Bara_Fan"')
 path.write_text(json.dumps(dash, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

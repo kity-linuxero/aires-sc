@@ -896,7 +896,7 @@
             "type": "influxdb",
             "uid": "influxdb-aires"
           },
-          "query": "// Horas encendido por equipo en el rango del dashboard. Bara_Cool = compresor;\n// build-dashboard.py lo reemplaza por Bara_Fan para el panel del ventilador.\n// Estado 0/1 integrado en el tiempo: el resultado es \"horas encendido\".\nfrom(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"Bara_Cool\")\n  |> map(fn: (r) => ({r with _value: if r._value > 0.0 then 1.0 else 0.0}))\n  |> group(columns: [\"equipo\"])\n  |> sort(columns: [\"_time\"])\n  |> integral(unit: 1h)\n  |> group()\n  |> keep(columns: [\"equipo\", \"_value\"])\n  |> sort(columns: [\"equipo\"])\n",
+          "query": "// Horas encendido por equipo en el rango del dashboard. Bara_Cool = compresor;\n// build-dashboard.py lo reemplaza por Bara_Fan para el panel del ventilador.\n// El estado llega como 0 o 100 (%): se integra en el tiempo y se divide por 100.\n// El escalado va despues de integral(): map antes de integral devuelve 400.\nfrom(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"Bara_Cool\")\n  |> group(columns: [\"equipo\"])\n  |> integral(unit: 1h)\n  |> map(fn: (r) => ({r with _value: r._value / 100.0}))\n  |> group()\n  |> keep(columns: [\"equipo\", \"_value\"])\n  |> sort(columns: [\"equipo\"])\n",
           "refId": "A"
         }
       ]
@@ -1012,7 +1012,7 @@
             "type": "influxdb",
             "uid": "influxdb-aires"
           },
-          "query": "// Horas encendido por equipo en el rango del dashboard. Bara_Fan = compresor;\n// build-dashboard.py lo reemplaza por Bara_Fan para el panel del ventilador.\n// Estado 0/1 integrado en el tiempo: el resultado es \"horas encendido\".\nfrom(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"Bara_Fan\")\n  |> map(fn: (r) => ({r with _value: if r._value > 0.0 then 1.0 else 0.0}))\n  |> group(columns: [\"equipo\"])\n  |> sort(columns: [\"_time\"])\n  |> integral(unit: 1h)\n  |> group()\n  |> keep(columns: [\"equipo\", \"_value\"])\n  |> sort(columns: [\"equipo\"])\n",
+          "query": "// Horas encendido por equipo en el rango del dashboard. Bara_Cool = compresor;\n// build-dashboard.py lo reemplaza por Bara_Fan para el panel del ventilador.\n// El estado llega como 0 o 100 (%): se integra en el tiempo y se divide por 100.\n// El escalado va despues de integral(): map antes de integral devuelve 400.\nfrom(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"Bara_Fan\")\n  |> group(columns: [\"equipo\"])\n  |> integral(unit: 1h)\n  |> map(fn: (r) => ({r with _value: r._value / 100.0}))\n  |> group()\n  |> keep(columns: [\"equipo\", \"_value\"])\n  |> sort(columns: [\"equipo\"])\n",
           "refId": "A"
         }
       ]
