@@ -28,6 +28,8 @@ versión.
   modo kiosco) con todo a la vista sin scroll y sin el historial de
   funcionamiento. Las tarjetas de equipo son compactas: cada testigo es solo el
   icono con su color (verde = encendido).
+  Los gráficos de temperatura y humedad usan un único setpoint general y los
+  mismos colores por aire que las tortas.
   Se genera con `grafana/build-dashboard.py` a partir de los mismos paneles que el
   dashboard principal, que no cambia. Entra sin scroll en 1920x1080 y tambien con
   zoom 125 % del navegador; en un TV 4K, usar zoom 200 %.
