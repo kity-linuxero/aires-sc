@@ -15,19 +15,19 @@ next(p for p in dash["panels"] if p["id"] == 10)["targets"][0]["query"] = usage
 next(p for p in dash["panels"] if p["id"] == 11)["targets"][0]["query"] = usage.replace('item_name == "Bara_Cool"', 'item_name == "Bara_Fan"')
 path.write_text(json.dumps(dash, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
-# Dashboard para TV: sin el historial de funcionamiento y con todo en una pantalla (24 x 27 filas;
+# Dashboard para TV: sin el historial de funcionamiento y todo en una pantalla (24 x 27 filas;
 # entra en 1080 px de alto en modo kiosco, sin la barra de controles).
 # Misma fuente de paneles/consultas que el dashboard principal; solo cambia la distribucion.
 tv = copy.deepcopy(dash)
 tv["title"] = "Liebert · TV"
 tv["uid"] = "liebert-tv"
 tv["tags"] = tv["tags"] + ["tv"]
-tv["timepicker"] = {"hidden": True}  # sin selector de tiempo ni refresh: libera la barra superior
 tv["panels"] = [p for p in tv["panels"] if p["id"] != 9]
+tv["timepicker"] = {"hidden": True}  # sin selector de tiempo ni refresh: libera la barra superior
 layout = {  # id: (x, y, w, h)
     2: (0, 0, 5, 8), 3: (5, 0, 5, 8), 10: (10, 0, 7, 8), 11: (17, 0, 7, 8),
-    7: (0, 8, 24, 9),
-    4: (0, 17, 12, 10), 5: (12, 17, 12, 10),
+    7: (0, 8, 24, 6),
+    4: (0, 14, 12, 13), 5: (12, 14, 12, 13),
 }
 for p in tv["panels"]:
     x, y, w, h = layout[p["id"]]
