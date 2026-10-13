@@ -639,7 +639,8 @@
           "calcs": [
             "lastNotNull",
             "min",
-            "max"
+            "max",
+            "mean"
           ],
           "displayMode": "table",
           "placement": "bottom",
