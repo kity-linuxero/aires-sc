@@ -631,7 +631,7 @@
         "h": 9,
         "w": 12,
         "x": 0,
-        "y": 36
+        "y": 45
       },
       "id": 4,
       "options": {
@@ -751,7 +751,7 @@
         "h": 9,
         "w": 12,
         "x": 12,
-        "y": 36
+        "y": 45
       },
       "id": 5,
       "options": {
@@ -784,6 +784,238 @@
       ],
       "title": "Humedad de retorno vs setpoint",
       "type": "timeseries"
+    },
+    {
+      "id": 10,
+      "type": "piechart",
+      "title": "Uso del compresor por aire",
+      "description": "Horas con el compresor encendido en el rango seleccionado y porcentaje sobre el total de los tres aires.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb-aires"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 36
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "h",
+          "decimals": 1,
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa1"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#5794F2"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa2"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#FF9830"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa3"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#B877D9"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "pieType": "pie",
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "showLegend": true,
+          "displayMode": "table",
+          "placement": "right",
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^_value$/",
+          "values": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-aires"
+          },
+          "query": "// Horas encendido por equipo en el rango del dashboard. Bara_Cool = compresor;\n// build-dashboard.py lo reemplaza por Bara_Fan para el panel del ventilador.\n// Estado 0/1 integrado en el tiempo: el resultado es \"horas encendido\".\nfrom(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"Bara_Cool\")\n  |> map(fn: (r) => ({r with _value: if r._value > 0.0 then 1.0 else 0.0}))\n  |> group(columns: [\"equipo\"])\n  |> sort(columns: [\"_time\"])\n  |> integral(unit: 1h)\n  |> group()\n  |> keep(columns: [\"equipo\", \"_value\"])\n  |> sort(columns: [\"equipo\"])\n",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "type": "piechart",
+      "title": "Uso del ventilador por aire",
+      "description": "Horas con el ventilador encendido en el rango seleccionado y porcentaje sobre el total de los tres aires.",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "influxdb-aires"
+      },
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 36
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "h",
+          "decimals": 1,
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa1"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#5794F2"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa2"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#FF9830"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "aa3"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "mode": "fixed",
+                  "fixedColor": "#B877D9"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "pieType": "pie",
+        "displayLabels": [
+          "percent"
+        ],
+        "legend": {
+          "showLegend": true,
+          "displayMode": "table",
+          "placement": "right",
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "/^_value$/",
+          "values": true
+        },
+        "tooltip": {
+          "hideZeros": false,
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "influxdb-aires"
+          },
+          "query": "// Horas encendido por equipo en el rango del dashboard. Bara_Fan = compresor;\n// build-dashboard.py lo reemplaza por Bara_Fan para el panel del ventilador.\n// Estado 0/1 integrado en el tiempo: el resultado es \"horas encendido\".\nfrom(bucket: \"aires\")\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\n  |> filter(fn: (r) => r._measurement == \"liebert_ac\" and r._field == \"value_num\" and r.item_name == \"Bara_Fan\")\n  |> map(fn: (r) => ({r with _value: if r._value > 0.0 then 1.0 else 0.0}))\n  |> group(columns: [\"equipo\"])\n  |> sort(columns: [\"_time\"])\n  |> integral(unit: 1h)\n  |> group()\n  |> keep(columns: [\"equipo\", \"_value\"])\n  |> sort(columns: [\"equipo\"])\n",
+          "refId": "A"
+        }
+      ]
     }
   ],
   "refresh": "1m",

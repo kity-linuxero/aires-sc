@@ -22,6 +22,8 @@ versión.
   (`--updates`) y alerta simulada (`--alert-test`).
 - Dashboard: columna de promedio (Mean) en la leyenda de "Temperatura de
   retorno vs setpoint".
+- Dashboard: dos gráficos de torta con las horas encendido y el porcentaje de
+  uso del compresor y del ventilador por aire en el rango seleccionado.
 
 ### Cambiado
 
