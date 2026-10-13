@@ -1,5 +1,5 @@
 """Inserta grafana/src/*.{flux,hbs,css} en los paneles de liebert-overview.json."""
-import json, pathlib
+import copy, json, pathlib
 
 root = pathlib.Path(__file__).parent
 path = root / "dashboards" / "liebert-overview.json"
@@ -14,3 +14,28 @@ usage = (root / "src/usage.flux").read_text(encoding="utf-8")
 next(p for p in dash["panels"] if p["id"] == 10)["targets"][0]["query"] = usage
 next(p for p in dash["panels"] if p["id"] == 11)["targets"][0]["query"] = usage.replace('item_name == "Bara_Cool"', 'item_name == "Bara_Fan"')
 path.write_text(json.dumps(dash, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+# Dashboard para TV: sin el historial de funcionamiento y con todo en una pantalla (24 x 26,
+# unos 1080 px de alto en modo kiosco).
+# Misma fuente de paneles/consultas que el dashboard principal; solo cambia la distribucion.
+tv = copy.deepcopy(dash)
+tv["title"] = "Liebert · TV"
+tv["uid"] = "liebert-tv"
+tv["tags"] = tv["tags"] + ["tv"]
+tv["panels"] = [p for p in tv["panels"] if p["id"] != 9]
+layout = {  # id: (x, y, w, h)
+    2: (0, 0, 5, 8), 3: (5, 0, 5, 8), 10: (10, 0, 7, 8), 11: (17, 0, 7, 8),
+    7: (0, 8, 24, 9),
+    4: (0, 17, 12, 9), 5: (12, 17, 12, 9),
+}
+for p in tv["panels"]:
+    x, y, w, h = layout[p["id"]]
+    p["gridPos"] = {"x": x, "y": y, "w": w, "h": h}
+for pid in (4, 5):  # leyenda a la derecha y mas corta para que no recorte series
+    legend = next(p for p in tv["panels"] if p["id"] == pid)["options"]["legend"]
+    legend["placement"] = "right"
+    legend["calcs"] = ["lastNotNull", "mean"]
+units = next(p for p in tv["panels"] if p["id"] == 7)
+units["options"]["styles"] += "\n" + (root / "src/units-tv.css").read_text(encoding="utf-8")
+(root / "dashboards" / "liebert-tv.json").write_text(
+    json.dumps(tv, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

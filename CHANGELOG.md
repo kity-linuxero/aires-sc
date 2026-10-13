@@ -24,6 +24,10 @@ versión.
   retorno vs setpoint".
 - Dashboard: dos gráficos de torta con las horas encendido y el porcentaje de
   uso del compresor y del ventilador por aire en el rango seleccionado.
+- Dashboard "Liebert · TV" (`liebert-tv`): vista para pantallas grandes (1920x1080,
+  modo kiosco) con todo a la vista sin scroll y sin el historial de funcionamiento.
+  Se genera con `grafana/build-dashboard.py` a partir de los mismos paneles que el
+  dashboard principal, que no cambia. En un TV 4K, usar zoom 200 % del navegador.
 
 ### Cambiado
 
